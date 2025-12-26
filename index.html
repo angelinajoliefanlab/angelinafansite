@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VIP Fan Chat Verification</title>
+<style>
+body { font-family: Arial, sans-serif; background: radial-gradient(circle, #000, #111); color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; }
+.container { background: #1a1a1a; padding: 30px; border-radius: 12px; width: 360px; text-align: center; box-shadow: 0 0 30px rgba(212,175,55,0.4); animation: fadeIn 1.2s ease; }
+h2 { color: #d4af37; }
+input, select { width: 100%; padding: 10px; margin-top: 10px; border-radius: 6px; border: none; outline: none; }
+button { margin-top: 15px; padding: 10px; width: 100%; background: #d4af37; color: #000; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; }
+.result { margin-top: 20px; font-size: 16px; }
+.vip { color: #00ffcc; }
+.error { color: #ff5555; }
+.hidden { display: none; }
+@keyframes fadeIn { from {opacity: 0; transform: scale(0.9);} to {opacity: 1; transform: scale(1);} }
+</style>
+</head>
+<body>
+<div class="container">
+<h2>🎬 ANGELINA JOLIE VIP Fan Code Verification</h2>
+<input type="text" id="codeInput" placeholder="Enter Fan Chat Code">
+<button type="button" onclick="verifyFan()">Verify Fan</button>
+<div class="result" id="result"></div>
+<hr style="margin:20px 0; border-color:#333;">
+<button type="button" onclick="showAdmin()">Admin Panel</button>
+<div id="adminLogin" class="hidden">
+<input type="password" id="adminPass" placeholder="Admin Password">
+<button type="button" onclick="loginAdmin()">Login</button>
+</div>
+<div id="adminPanel" class="hidden">
+<h3>➕ Add Fan</h3>
+<input id="newCode" placeholder="Chat Code">
+<input id="newName" placeholder="Fan Name">
+<select id="newLevel">
+<option>Silver</option>
+<option>Gold</option>
+<option>Platinum</option>
+<option>Diamond</option>
+<option>Just a chat fan</option>
+</select>
+<input id="newExpiry" placeholder="Expiry Date (YYYY-MM-DD)">
+<label style="display:block; margin-top:5px; font-size:14px;">
+<input type="checkbox" id="newNonFan"> Non-Fan
+</label>
+<button type="button" onclick="addFan()">Save Fan</button>
+</div>
+</div>
+<audio id="successSound">
+<source src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg" type="audio/ogg">
+</audio>
+<script>
+let fanDB = {
+"AJ38746":{name:"Ramiro", level:"Chat Fan", expiry:"2026-01-20",nonFan:false},
+"AJ59381":{name:"Daniel Moton", level:"Fan", expiry:"2026-01-22",nonFan:false},
+"LC2025": {name:"Daniel Carter", level:"Gold", expiry:"2026-01-01", nonFan:false},
+"SALT88": {name:"Emily Johnson", level:"Silver", expiry:"2025-12-31", nonFan:true},
+"WANTED77": {name:"Sophia Williams", level:"Platinum", expiry:"2026-06-30", nonFan:false},
+"DIAMOND01": {name:"John Doe", level:"Diamond", expiry:"2026-12-31", nonFan:true}
+};
+const ADMIN_PASSWORD = "Solomonhkboy1@";
+function verifyFan() {
+const code = document.getElementById("codeInput").value.trim();
+const result = document.getElementById("result");
+if (fanDB[code]) {
+const fan = fanDB[code];
+document.getElementById("successSound").play();
+if (fan.nonFan) {
+result.className = "result error";
+result.innerHTML = `⚠️ Non-Fan – Limited Access<br><strong>Level:</strong> ${fan.level}`;
+} else {
+result.className = "result vip";
+result.innerHTML = `✅ Fan Verified<br><strong>Name:</strong> ${fan.name}<br><strong>Level:</strong> ${fan.level}<br><strong>Expires:</strong> ${fan.expiry}`;
+}
+} else {
+result.className = "result error";
+result.textContent = "❌ Unavailable Fan";
+}
+}
+function showAdmin() {
+document.getElementById("adminLogin").classList.toggle("hidden");
+}
+function loginAdmin() {
+const pass = document.getElementById("adminPass").value;
+if(pass===ADMIN_PASSWORD){
+document.getElementById("adminLogin").classList.add("hidden");
+document.getElementById("adminPanel").classList.remove("hidden");
+}else{alert("Wrong password");}
+}
+function addFan() {
+const code=document.getElementById("AJ59381").value.trim();
+const name=document.getElementById("Daniel Moton").value.trim();
+const level=document.getElementById("Fan").value;
+const expiry=document.getElementById("2026-01-22").value;
+const nonFan=document.getElementById("Just a Chat Fan").checked;
+if(!code||!name||!expiry){alert("Fill all fields");return;}
+fanDB[code]={name,level,expiry,nonFan};
+alert("Fan Added Successfully!");
+document.getElementById("newCode").value="";
+document.getElementById("newName").value="";
+document.getElementById("newExpiry").value="";
+document.getElementById("newNonFan").checked=false;
+}
+</script>
+</body>
+</html>
