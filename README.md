@@ -1,2 +1,2 @@
 # angelinafansite
-ANGELINA JOLIE VIP Fan Code Verification
+ANGELINA JOLIE FAN CHAT CODE VERIFICATION
